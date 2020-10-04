@@ -5,7 +5,8 @@ import { TableComponent } from './table/table.component';
 
 const routes: Routes = [
   {path: '', component: TextComponent},
-  {path: 'table', component: TableComponent}
+  {path: 'table', component: TableComponent},
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({
