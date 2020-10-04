@@ -1,0 +1,35 @@
+<div class="modal fade" id="downloading">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Скачивание файла</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="fname">Имя файла</label>
+                    <input type="text" name="fname" class="form-control" autocomplete="off" [(ngModel)]="fileName"
+                        id="fname" #fname="ngModel">
+                    <div [hidden]="isFileNameValid() || fname.untouched" class="alert alert-danger">
+                        Необходимо указать имя файла
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fformat">Формат файла</label>
+                    <select class="form-control" id="fformat" [(ngModel)]="type" #fformat="ngModel" required>
+                        <option>json</option>
+                        <option>csv</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="fformat.invalid || !isFileNameValid()" type="button" class="btn btn-secondary btn-icon" (click)="onDownload()">
+                    <span class="icon"><i class="fa fa-download"></i></span>Скачать
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

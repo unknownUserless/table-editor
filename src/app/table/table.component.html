@@ -1,0 +1,97 @@
+<div class="container" id="cont">
+    <div>
+        <button class="btn btn-secondary" *ngIf="!contenteditable" (click)="onEdit()">Изменить данные</button>
+        <button class="btn btn-success" *ngIf="contenteditable" (click)="onSave()">Сохранить</button>
+        <button class="btn btn-danger" *ngIf="contenteditable" (click)="onCancel()">Отмена</button>
+        <button class="btn btn-secondary" *ngIf="contenteditable" (click)="onAddRow()">Добавить строку</button>
+        <button class="btn btn-secondary" *ngIf="contenteditable" (click)="onChoseName()">Добавить столбец</button>
+    </div>
+    <div id="table" class="table-responsive table-editable">
+        <table class="table table-bordered text-center table-light table-striped table-fixed">
+
+            <thead class="thead-dark">
+                <tr>
+                    <th *ngFor="let head of table.editableTable.head; let i = index" scope="col">
+                        <span *ngIf="contenteditable" class="icon inp-icon" (click)="onLeft(i)">
+                            <i class="fa fa-arrow-left"></i>
+                        </span>
+                        <span [attr.contenteditable]="contenteditable" (blur)="onChangeHead($event, i)">{{head}}</span>
+                        <span *ngIf="contenteditable" class="icon inp-icon ml-1" (click)="onRemoveColumn(i)">
+                            <i class="fa fa-trash"></i>
+                        </span>
+                        <span *ngIf="contenteditable" class="icon inp-icon" (click)="onRight(i)">
+                            <i class="fa fa-arrow-right"></i>
+                        </span>
+                    </th>
+                    <th *ngIf="contenteditable" scope="col">#</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let row of table.editableTable.data; let i = index">
+                    <td *ngFor="let item of row; let j = index" [attr.contenteditable]="contenteditable"
+                        (blur)="onBlur($event, i, j)" id="{{i}}:{{j}}">
+                        {{item}}
+                    </td>
+                    <td *ngIf="contenteditable">
+                        <span class="icon inp-icon" (click)="onUp(i)"><i class="fa fa-arrow-up"></i></span>
+                        <span class="icon inp-icon" (click)="onDown(i)"><i class="fa fa-arrow-down"></i></span>
+                        <span class="icon inp-icon" (click)="onRemoveRow(i)"><i class="fa fa-trash"></i></span>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <button type="button" class="btn btn-secondary float-left" (click)="onPrapareUpload()">
+        Выгрузить
+    </button>
+    <button class="btn btn-secondary btn-icon float-right" (click)="onModal()">
+        <span class="icon"><i class="fa fa-download"></i></span>Скачать
+    </button>
+
+</div>
+<file-downloading></file-downloading>
+<div class="modal fade" id="column-add" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Добавление столбца</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="fname">Название столбца</label>
+                    <input type="text" class="form-control" autocomplete="off" [(ngModel)]="colName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!isColNameValid()" class="btn btn-primary" data-dismiss="modal"
+                    (click)="onAddColumn()">Ок</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="upload" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Выгрузить</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="fname">Струтура данных для выгрузки</label>
+                    <select class="form-control" [(ngModel)]="type">
+                        <option>json</option>
+                        <option>csv</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" (click)="onUpload()">Выгрузить</button>
+            </div>
+        </div>
+    </div>
+</div>
