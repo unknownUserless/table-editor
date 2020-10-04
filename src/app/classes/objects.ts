@@ -1,5 +1,3 @@
-import { isArray } from 'util';
-
 export class Table {
     constructor(public head: string[], public data: string[][]) { }
 
@@ -132,10 +130,10 @@ export interface Parser {
 }
 
 export function copyArr(arr: any): any {
-    if (!isArray(arr)) throw new Error("WrongArgumentException");
+    if (!Array.isArray(arr)) throw new Error("WrongArgumentException");
     let carr = new Array(arr.length);
     for (let i = 0; i < carr.length; i++) {
-        if (isArray(arr[i])) {
+        if (Array.isArray(arr[i])) {
             carr[i] = copyArr(arr[i]);
         } else {
             carr[i] = arr[i];
